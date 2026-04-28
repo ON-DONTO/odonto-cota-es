@@ -27,4 +27,24 @@ function authenticate(req, res, next) {
   }
 }
 
-module.exports = { authenticate };
+/**
+ * Middleware de autorização baseado em papéis (RBAC).
+ * Verifica se o usuário logado possui a permissão necessária.
+ * Requer que o middleware `authenticate` tenha rodado antes.
+ * @param {string[]} roles Array de tipos de usuário permitidos (ex: ['admin'])
+ */
+function authorize(roles = []) {
+  return (req, res, next) => {
+    if (!req.user) {
+      return res.status(401).json({ error: 'Usuário não autenticado.' });
+    }
+
+    if (!roles.includes(req.user.tipo)) {
+      return res.status(403).json({ error: 'Acesso negado. Permissão insuficiente.' });
+    }
+
+    next();
+  };
+}
+
+module.exports = { authenticate, authorize };

@@ -2,12 +2,9 @@
 
 const { Router } = require('express');
 const controller = require('./areas.controller');
-const { authenticate } = require('../../../middlewares/auth.middleware');
+const { authenticate, authorize } = require('../../../middlewares/auth.middleware');
 
 const router = Router();
-
-// AUTH TEMPORARIAMENTE DESABILITADO PARA TESTES
-// router.use(authenticate);
 
 // GET    /api/areas         — Lista todas as áreas
 router.get('/', controller.listar);
@@ -16,15 +13,15 @@ router.get('/', controller.listar);
 router.get('/:id', controller.buscarPorId);
 
 // POST   /api/areas         — Cria nova área
-router.post('/', controller.criar);
+router.post('/', authenticate, authorize(['admin']), controller.criar);
 
 // PUT    /api/areas/:id     — Atualiza área
-router.put('/:id', controller.atualizar);
+router.put('/:id', authenticate, authorize(['admin']), controller.atualizar);
 
 // PATCH  /api/areas/:id/ativar    — Ativa área
-router.patch('/:id/ativar', controller.ativar);
+router.patch('/:id/ativar', authenticate, authorize(['admin']), controller.ativar);
 
 // PATCH  /api/areas/:id/desativar — Desativa área
-router.patch('/:id/desativar', controller.desativar);
+router.patch('/:id/desativar', authenticate, authorize(['admin']), controller.desativar);
 
 module.exports = router;

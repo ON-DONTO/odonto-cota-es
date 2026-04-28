@@ -1,8 +1,10 @@
 'use strict';
 
 const express = require('express');
+const cors = require('cors');
 
 // Routes
+const authRoutes = require('./modules/auth/auth.routes');
 const areasRoutes = require('./modules/catalogo/areas/areas.routes');
 const categoriasRoutes = require('./modules/catalogo/categorias/categorias.routes');
 const produtosRoutes = require('./modules/catalogo/produtos/produtos.routes');
@@ -11,6 +13,8 @@ const produtosRoutes = require('./modules/catalogo/produtos/produtos.routes');
 const { errorHandler } = require('./middlewares/errorHandler.middleware');
 
 const app = express();
+
+app.use(cors());
 
 // ── Parsing ─────────────────────────────────────────────
 app.use(express.json());
@@ -22,6 +26,7 @@ app.get('/health', (req, res) => {
 });
 
 // ── Rotas do catálogo ────────────────────────────────────
+app.use('/api/auth', authRoutes);
 app.use('/api/areas', areasRoutes);
 app.use('/api/categorias', categoriasRoutes);
 app.use('/api/produtos', produtosRoutes);
