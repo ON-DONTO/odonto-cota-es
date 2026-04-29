@@ -15,4 +15,7 @@ router.get('/:id', controller.buscarPorId);
 // POST /api/categorias           — Cria nova categoria
 router.post('/', authenticate, authorize(['admin']), controller.criar);
 
+// DELETE /api/categorias/:id     — Exclui categoria
+router.delete('/:id', authenticate, authorize(['admin']), controller.deletar);
+
 module.exports = router;

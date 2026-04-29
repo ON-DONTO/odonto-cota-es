@@ -21,4 +21,7 @@ router.patch('/:id/ativar', authenticate, authorize(['admin']), controller.ativa
 // PATCH  /api/produtos/:id/desativar        — Desativa produto
 router.patch('/:id/desativar', authenticate, authorize(['admin']), controller.desativar);
 
+// DELETE /api/produtos/:id                 — Exclui produto
+router.delete('/:id', authenticate, authorize(['admin']), controller.deletar);
+
 module.exports = router;

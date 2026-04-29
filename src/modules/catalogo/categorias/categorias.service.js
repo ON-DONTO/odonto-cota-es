@@ -37,9 +37,13 @@ async function criarCategoria({ nome, area_id }) {
 
   const existente = await categoriasRepository.findByNomeAndArea(nome.trim(), area_id);
   if (existente) throw createError('Já existe uma categoria com este nome nessa área.');
-
   const id = uuidv4();
   return categoriasRepository.create({ id, nome: nome.trim(), area_id });
 }
 
-module.exports = { listarCategorias, buscarCategoriaPorId, criarCategoria };
+async function deletarCategoria(id) {
+  await buscarCategoriaPorId(id);
+  return categoriasRepository.remove(id);
+}
+
+module.exports = { listarCategorias, buscarCategoriaPorId, criarCategoria, deletarCategoria };

@@ -50,4 +50,17 @@ async function ativarDesativarArea(id, ativo) {
   return areasRepository.setAtivo(id, ativo);
 }
 
-module.exports = { listarAreas, buscarAreaPorId, criarArea, atualizarArea, ativarDesativarArea };
+async function deletarArea(id) {
+  await buscarAreaPorId(id);
+  // Nota: Poderia haver uma verificação aqui para impedir a exclusão se houver categorias vinculadas
+  return areasRepository.remove(id);
+}
+
+module.exports = { 
+  listarAreas, 
+  buscarAreaPorId, 
+  criarArea, 
+  atualizarArea, 
+  ativarDesativarArea,
+  deletarArea
+};

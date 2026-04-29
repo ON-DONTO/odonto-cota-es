@@ -24,4 +24,7 @@ router.patch('/:id/ativar', authenticate, authorize(['admin']), controller.ativa
 // PATCH  /api/areas/:id/desativar — Desativa área
 router.patch('/:id/desativar', authenticate, authorize(['admin']), controller.desativar);
 
+// DELETE /api/areas/:id           — Exclui área
+router.delete('/:id', authenticate, authorize(['admin']), controller.deletar);
+
 module.exports = router;

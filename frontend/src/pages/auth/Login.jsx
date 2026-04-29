@@ -1,4 +1,5 @@
 import React, { useState, useContext } from 'react';
+import { Link } from 'react-router-dom';
 import { AuthContext } from '../../contexts/AuthContext';
 import { Stethoscope } from 'lucide-react';
 
@@ -59,6 +60,10 @@ export default function Login() {
             Entrar no Sistema
           </button>
         </form>
+
+        <div style={{ textAlign: 'center', marginTop: '1.5rem', fontSize: '0.9rem', color: 'var(--text-muted)' }}>
+          Ainda não tem uma conta? <Link to="/register" style={{ color: 'var(--primary)', fontWeight: '600', textDecoration: 'none' }}>Cadastre-se</Link>
+        </div>
       </div>
     </div>
   );

@@ -43,7 +43,7 @@ async function login(email, password) {
  * Serviço de Registro
  */
 async function register(userData) {
-  const { nome, email, senha } = userData;
+  const { nome, email, senha, tipo } = userData;
 
   // Verifica se o email já existe
   const existingUser = await authRepository.findByEmail(email);
@@ -51,16 +51,19 @@ async function register(userData) {
     throw createError('E-mail já está em uso', 400);
   }
 
+  // Validação básica de tipo (impede criação de admin via rota pública)
+  const allowedTypes = ['cliente', 'fornecedor'];
+  const finalTipo = allowedTypes.includes(tipo) ? tipo : 'cliente';
+
   // Hash da senha
   const salt = await bcrypt.genSalt(10);
   const hashedPassword = await bcrypt.hash(senha, salt);
 
-  // Força que novos registros via API pública sejam sempre 'cliente'
   const userToCreate = {
     nome,
     email,
     senha: hashedPassword,
-    tipo: 'cliente'
+    tipo: finalTipo
   };
 
   const newUser = await authRepository.create(userToCreate);

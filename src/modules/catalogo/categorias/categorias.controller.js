@@ -34,4 +34,13 @@ async function criar(req, res, next) {
   }
 }
 
-module.exports = { listar, buscarPorId, criar };
+async function deletar(req, res, next) {
+  try {
+    await categoriasService.deletarCategoria(req.params.id);
+    return res.status(204).send();
+  } catch (err) {
+    next(err);
+  }
+}
+
+module.exports = { listar, buscarPorId, criar, deletar };

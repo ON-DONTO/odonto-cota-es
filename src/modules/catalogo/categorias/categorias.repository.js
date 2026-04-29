@@ -55,4 +55,12 @@ async function create({ id, nome, area_id }) {
   return findById(id);
 }
 
-module.exports = { findAll, findById, findByNomeAndArea, create };
+async function remove(id) {
+  const [result] = await pool.execute(
+    'DELETE FROM categorias WHERE id = ?',
+    [id]
+  );
+  return result.affectedRows > 0;
+}
+
+module.exports = { findAll, findById, findByNomeAndArea, create, remove };

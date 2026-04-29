@@ -73,4 +73,12 @@ async function setAtivo(id, ativo) {
   return findById(id);
 }
 
-module.exports = { findAll, findById, findByNomeAndCategoria, create, setAtivo };
+async function remove(id) {
+  const [result] = await pool.execute(
+    'DELETE FROM produtos WHERE id = ?',
+    [id]
+  );
+  return result.affectedRows > 0;
+}
+
+module.exports = { findAll, findById, findByNomeAndCategoria, create, setAtivo, remove };

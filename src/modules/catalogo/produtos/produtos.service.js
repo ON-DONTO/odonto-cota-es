@@ -46,4 +46,15 @@ async function ativarDesativarProduto(id, ativo) {
   return produtosRepository.setAtivo(id, ativo);
 }
 
-module.exports = { listarProdutos, buscarProdutoPorId, criarProduto, ativarDesativarProduto };
+async function deletarProduto(id) {
+  await buscarProdutoPorId(id);
+  return produtosRepository.remove(id);
+}
+
+module.exports = { 
+  listarProdutos, 
+  buscarProdutoPorId, 
+  criarProduto, 
+  ativarDesativarProduto,
+  deletarProduto
+};

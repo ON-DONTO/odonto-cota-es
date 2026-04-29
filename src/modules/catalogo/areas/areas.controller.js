@@ -60,4 +60,13 @@ async function desativar(req, res, next) {
   }
 }
 
-module.exports = { listar, buscarPorId, criar, atualizar, ativar, desativar };
+async function deletar(req, res, next) {
+  try {
+    await areasService.deletarArea(req.params.id);
+    return res.status(204).send();
+  } catch (err) {
+    next(err);
+  }
+}
+
+module.exports = { listar, buscarPorId, criar, atualizar, ativar, desativar, deletar };

@@ -53,4 +53,12 @@ async function setAtivo(id, ativo) {
   return findById(id);
 }
 
-module.exports = { findAll, findById, findByNome, create, update, setAtivo };
+async function remove(id) {
+  const [result] = await pool.execute(
+    'DELETE FROM areas WHERE id = ?',
+    [id]
+  );
+  return result.affectedRows > 0;
+}
+
+module.exports = { findAll, findById, findByNome, create, update, setAtivo, remove };
