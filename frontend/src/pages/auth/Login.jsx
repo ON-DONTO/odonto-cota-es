@@ -1,10 +1,11 @@
 import React, { useState, useContext } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../contexts/AuthContext';
 import { Stethoscope } from 'lucide-react';
 
 export default function Login() {
   const { signIn } = useContext(AuthContext);
+  const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -14,7 +15,14 @@ export default function Login() {
     setError('');
     
     try {
-      await signIn(email, password);
+      const response = await signIn(email, password);
+      const userType = response?.user?.tipo;
+      
+      if (userType === 'fornecedor') {
+        navigate('/fornecedor');
+      } else {
+        navigate('/');
+      }
     } catch (err) {
       setError(err.response?.data?.error || 'Erro ao realizar login. Tente novamente.');
     }
@@ -25,7 +33,7 @@ export default function Login() {
       <div className="login-box">
         <div className="login-header">
           <Stethoscope size={48} color="var(--primary)" />
-          <h2>Odonto Cota ES</h2>
+          <h2>Odonto Cotações</h2>
           <p>Acesse o sistema com suas credenciais.</p>
         </div>
 

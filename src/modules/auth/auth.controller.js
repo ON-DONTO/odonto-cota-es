@@ -18,12 +18,12 @@ async function login(req, res, next) {
 
 async function register(req, res, next) {
   try {
-    const { nome, email, senha } = req.body;
+    const { nome, email, senha, tipo } = req.body;
     if (!nome || !email || !senha) {
       return res.status(400).json({ error: 'Nome, email e senha são obrigatórios.' });
     }
 
-    const newUser = await authService.register({ nome, email, senha });
+    const newUser = await authService.register({ nome, email, senha, tipo });
     res.status(201).json(newUser);
   } catch (err) {
     next(err);

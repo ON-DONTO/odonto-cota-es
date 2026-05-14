@@ -4,7 +4,8 @@ import api from '../../services/api';
 import Navbar from '../../components/Navbar';
 import ProductModal from '../../components/ProductModal';
 import { AuthContext } from '../../contexts/AuthContext';
-import { ArrowLeft, Box, Plus, Trash2, ShoppingBag, Info } from 'lucide-react';
+import { CartContext } from '../../contexts/CartContext';
+import { ArrowLeft, Box, Plus, Trash2, ShoppingBag, Info, CheckCircle } from 'lucide-react';
 
 export default function Produtos() {
   const { id } = useParams(); // ID da Categoria
@@ -15,6 +16,7 @@ export default function Produtos() {
   const [categoria, setCategoria] = useState(null);
   const [loading, setLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const { addToCart, cart } = useContext(CartContext);
 
   async function loadData() {
     try {
@@ -121,8 +123,16 @@ export default function Produtos() {
                   </div>
                   
                   <div style={{ marginTop: 'auto', width: '100%', display: 'flex', gap: '0.5rem' }}>
-                    <button className="btn-primary" style={{ flex: 1 }}>
-                      Solicitar Cotação
+                    <button 
+                      className={cart.some(i => i.id === prod.id) ? "btn-secondary" : "btn-primary"}
+                      style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem' }}
+                      onClick={() => addToCart(prod)}
+                    >
+                      {cart.some(i => i.id === prod.id) ? (
+                        <><CheckCircle size={18} /> Adicionado</>
+                      ) : (
+                        "Solicitar Cotação"
+                      )}
                     </button>
                   </div>
                 </div>

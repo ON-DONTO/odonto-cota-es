@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import api from '../../services/api';
-import { Stethoscope, User, Mail, Lock, UserCircle } from 'lucide-react';
+import { Stethoscope, User, Mail, Lock, UserCircle, Store } from 'lucide-react';
 
 export default function Register() {
   const [nome, setNome] = useState('');
@@ -86,19 +86,38 @@ export default function Register() {
           </div>
 
           <div className="input-group">
-            <label htmlFor="tipo">Eu sou um:</label>
-            <div style={{ position: 'relative' }}>
-              <UserCircle size={18} style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)' }} />
-              <select 
-                id="tipo" 
-                value={tipo}
-                onChange={(e) => setTipo(e.target.value)}
-                style={{ paddingLeft: '2.5rem', appearance: 'none', background: 'white' }}
-                required
+            <label style={{ fontWeight: '700', color: 'var(--primary)', marginBottom: '0.75rem', display: 'block' }}>O que você deseja fazer na plataforma?</label>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem', marginBottom: '1.5rem' }}>
+              <div 
+                onClick={() => setTipo('cliente')}
+                style={{ 
+                  padding: '1rem', 
+                  borderRadius: '0.75rem', 
+                  border: '2px solid ' + (tipo === 'cliente' ? 'var(--primary)' : 'var(--border)'),
+                  background: tipo === 'cliente' ? 'var(--accent-bg)' : 'white',
+                  cursor: 'pointer',
+                  textAlign: 'center',
+                  transition: '0.2s'
+                }}
               >
-                <option value="cliente">Dentista / Clínica (Comprador)</option>
-                <option value="fornecedor">Distribuidor / Vendedor (Fornecedor)</option>
-              </select>
+                <Stethoscope size={24} style={{ marginBottom: '0.5rem', color: tipo === 'cliente' ? 'var(--primary)' : 'var(--text-muted)' }} />
+                <div style={{ fontWeight: '600', fontSize: '0.8rem' }}>Comprar Produtos (Dentista)</div>
+              </div>
+              <div 
+                onClick={() => setTipo('fornecedor')}
+                style={{ 
+                  padding: '1rem', 
+                  borderRadius: '0.75rem', 
+                  border: '2px solid ' + (tipo === 'fornecedor' ? 'var(--primary)' : 'var(--border)'),
+                  background: tipo === 'fornecedor' ? 'var(--accent-bg)' : 'white',
+                  cursor: 'pointer',
+                  textAlign: 'center',
+                  transition: '0.2s'
+                }}
+              >
+                <Store size={24} style={{ marginBottom: '0.5rem', color: tipo === 'fornecedor' ? 'var(--primary)' : 'var(--text-muted)' }} />
+                <div style={{ fontWeight: '600', fontSize: '0.8rem' }}>Vender Produtos (Fornecedor)</div>
+              </div>
             </div>
           </div>
 

@@ -8,6 +8,9 @@ const authRoutes = require('./modules/auth/auth.routes');
 const areasRoutes = require('./modules/catalogo/areas/areas.routes');
 const categoriasRoutes = require('./modules/catalogo/categorias/categorias.routes');
 const produtosRoutes = require('./modules/catalogo/produtos/produtos.routes');
+const cotacoesRoutes = require('./modules/catalogo/cotacoes/cotacoes.routes');
+const respostasRoutes = require('./modules/catalogo/cotacoes/respostas.routes');
+const usersRoutes = require('./modules/users/users.routes');
 
 // Middlewares
 const { errorHandler } = require('./middlewares/errorHandler.middleware');
@@ -30,6 +33,9 @@ app.use('/api/auth', authRoutes);
 app.use('/api/areas', areasRoutes);
 app.use('/api/categorias', categoriasRoutes);
 app.use('/api/produtos', produtosRoutes);
+app.use('/api/cotacoes', cotacoesRoutes);
+app.use('/api/respostas', respostasRoutes);
+app.use('/api/users', usersRoutes);
 
 // ── 404 ──────────────────────────────────────────────────
 app.use((req, res) => {

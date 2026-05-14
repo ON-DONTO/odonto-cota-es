@@ -1,5 +1,5 @@
 -- ============================================================
--- Script de criação do banco de dados - OdontoCota
+-- Script de criação do banco de dados - Odonto Cotações
 -- Compatível com MySQL 8.x
 -- ============================================================
 

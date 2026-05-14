@@ -14,6 +14,12 @@ export default function Catalogo() {
   const { user } = useContext(AuthContext);
   const navigate = useNavigate();
 
+  useEffect(() => {
+    if (user?.tipo === 'fornecedor') {
+      navigate('/fornecedor');
+    }
+  }, [user, navigate]);
+
   async function loadAreas() {
     setLoading(true);
     try {
@@ -157,7 +163,7 @@ export default function Catalogo() {
 
       <footer style={{ marginTop: 'auto', padding: '3rem 2rem', background: 'white', borderTop: '1px solid var(--border)', textAlign: 'center' }}>
         <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem' }}>
-          &copy; 2024 Odonto Cota ES. Todos os direitos reservados.
+          &copy; 2024 Odonto Cotações. Todos os direitos reservados.
         </p>
       </footer>
 
