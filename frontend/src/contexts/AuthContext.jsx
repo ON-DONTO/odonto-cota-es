@@ -9,8 +9,8 @@ export function AuthProvider({ children }) {
 
   useEffect(() => {
     // Ao iniciar o app, verifica se já existe token salvo
-    const storedUser = localStorage.getItem('@OdontoCota:user');
-    const storedToken = localStorage.getItem('@OdontoCota:token');
+    const storedUser = localStorage.getItem('@OnDonto:user');
+    const storedToken = localStorage.getItem('@OnDonto:token');
 
     if (storedUser && storedToken) {
       setUser(JSON.parse(storedUser));
@@ -25,8 +25,8 @@ export function AuthProvider({ children }) {
     
     const { user, token } = response.data;
 
-    localStorage.setItem('@OdontoCota:user', JSON.stringify(user));
-    localStorage.setItem('@OdontoCota:token', token);
+    localStorage.setItem('@OnDonto:user', JSON.stringify(user));
+    localStorage.setItem('@OnDonto:token', token);
 
     api.defaults.headers.Authorization = `Bearer ${token}`;
     setUser(user);
@@ -34,8 +34,8 @@ export function AuthProvider({ children }) {
   }
 
   function signOut() {
-    localStorage.removeItem('@OdontoCota:user');
-    localStorage.removeItem('@OdontoCota:token');
+    localStorage.removeItem('@OnDonto:user');
+    localStorage.removeItem('@OnDonto:token');
     setUser(null);
   }
 

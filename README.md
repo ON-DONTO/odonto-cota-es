@@ -1,4 +1,4 @@
-# OdontoCota — Backend B2B de Cotações Odontológicas
+# On Donto — Backend B2B de Cotações Odontológicas
 
 ## Stack
 

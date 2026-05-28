@@ -8,7 +8,7 @@ export function CartProvider({ children }) {
   const [cart, setCart] = useState([]);
 
   // Chave única para cada usuário
-  const cartKey = user ? `odonto_cota_cart_${user.id}` : 'odonto_cota_cart_guest';
+  const cartKey = user ? `on_donto_cart_${user.id}` : 'on_donto_cart_guest';
 
   // Carrega do localStorage ao iniciar ou ao trocar de usuário
   useEffect(() => {

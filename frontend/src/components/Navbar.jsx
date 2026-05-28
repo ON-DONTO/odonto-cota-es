@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Stethoscope, LogIn, LogOut, User, ClipboardList, Store, ShoppingCart, UserCheck } from 'lucide-react';
+import { Stethoscope, LogIn, LogOut, User, ClipboardList, Store, Notebook, UserCheck } from 'lucide-react';
 import { AuthContext } from '../contexts/AuthContext';
 import { CartContext } from '../contexts/CartContext';
 
@@ -18,7 +18,7 @@ export default function Navbar() {
     <nav className="navbar">
       <Link to={user?.tipo === 'fornecedor' ? "/fornecedor" : "/"} className="nav-brand">
         <Stethoscope size={28} />
-        <span>Odonto Cotações</span>
+        <span>On Donto</span>
       </Link>
       
       <div className="nav-links">
@@ -26,7 +26,7 @@ export default function Navbar() {
           <>
             {user.tipo === 'cliente' && (
               <Link to="/minhas-cotacoes" className="nav-item" style={{ position: 'relative', display: 'flex', alignItems: 'center', gap: '0.5rem', textDecoration: 'none', color: 'var(--text)', fontWeight: '600', marginRight: '1rem' }}>
-                <ShoppingCart size={20} />
+                <Notebook size={20} />
                 <span>Minha Lista</span>
                 {cart.length > 0 && (
                   <span style={{ position: 'absolute', top: '-8px', right: '-8px', background: 'var(--primary)', color: 'white', fontSize: '0.7rem', padding: '2px 6px', borderRadius: '10px', minWidth: '18px', textAlign: 'center' }}>

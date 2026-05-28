@@ -1,5 +1,5 @@
 {
-  "name": "odonto-cota-es",
+  "name": "on-donto",
   "version": "1.0.0",
   "description": "Sistema B2B de Cotações de Produtos Odontológicos",
   "main": "src/server.js",

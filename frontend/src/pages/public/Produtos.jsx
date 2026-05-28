@@ -5,7 +5,7 @@ import Navbar from '../../components/Navbar';
 import ProductModal from '../../components/ProductModal';
 import { AuthContext } from '../../contexts/AuthContext';
 import { CartContext } from '../../contexts/CartContext';
-import { ArrowLeft, Box, Plus, Trash2, ShoppingBag, Info, CheckCircle } from 'lucide-react';
+import { ArrowLeft, Box, Plus, Trash2, Notebook, Info, CheckCircle } from 'lucide-react';
 
 export default function Produtos() {
   const { id } = useParams(); // ID da Categoria
@@ -97,7 +97,7 @@ export default function Produtos() {
           <div className="grid">
             {produtos.length === 0 ? (
               <div style={{ gridColumn: '1/-1', textAlign: 'center', padding: '4rem', background: 'white', borderRadius: '1rem', border: '1px dashed var(--border)' }}>
-                <ShoppingBag size={48} color="var(--border)" style={{ marginBottom: '1rem' }} />
+                <Notebook size={48} color="var(--border)" style={{ marginBottom: '1rem' }} />
                 <p style={{ color: 'var(--text-muted)' }}>Nenhum produto cadastrado nesta categoria.</p>
               </div>
             ) : (
@@ -113,7 +113,7 @@ export default function Produtos() {
                   )}
                   
                   <div style={{ background: 'var(--accent-bg)', padding: '0.75rem', borderRadius: '0.75rem', color: 'var(--primary)' }}>
-                    <ShoppingBag size={24} />
+                    <Notebook size={24} />
                   </div>
                   <div style={{ width: '100%' }}>
                     <h3 className="card-title" style={{ margin: '0.5rem 0' }}>{prod.nome}</h3>

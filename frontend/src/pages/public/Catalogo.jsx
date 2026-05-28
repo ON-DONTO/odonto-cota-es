@@ -4,7 +4,7 @@ import api from '../../services/api';
 import Navbar from '../../components/Navbar';
 import AreaModal from '../../components/AreaModal';
 import { AuthContext } from '../../contexts/AuthContext';
-import { Layers, ArrowRight, ShoppingBag, ShieldCheck, Zap, Plus, Trash2 } from 'lucide-react';
+import { Layers, ArrowRight, Notebook, ShieldCheck, Zap, Plus, Trash2 } from 'lucide-react';
 
 export default function Catalogo() {
   const [areas, setAreas] = useState([]);
@@ -72,7 +72,7 @@ export default function Catalogo() {
         <div className="page-container" style={{ position: 'relative', zIndex: 2 }}>
           <h1 style={{ color: 'white', fontSize: '3.5rem', marginBottom: '1.5rem' }}>O Melhor em Produtos Odontológicos</h1>
           <p style={{ color: 'rgba(255,255,255,0.9)', fontSize: '1.25rem', maxWidth: '700px', margin: '0 auto 2.5rem' }}>
-            A plataforma B2B definitiva para clínicas e fornecedores no Espírito Santo. 
+            A plataforma B2B definitiva para clínicas e fornecedores On Donto. 
             Cotações rápidas, estoque atualizado e os melhores preços em um só lugar.
           </p>
           <div style={{ display: 'flex', justifyContent: 'center', gap: '2rem' }}>
@@ -83,7 +83,7 @@ export default function Catalogo() {
               <Zap size={20} /> <span>Entrega Rápida</span>
             </div>
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.9rem' }}>
-              <ShoppingBag size={20} /> <span>Melhores Marcas</span>
+              <Notebook size={20} /> <span>Melhores Marcas</span>
             </div>
           </div>
         </div>
@@ -163,7 +163,7 @@ export default function Catalogo() {
 
       <footer style={{ marginTop: 'auto', padding: '3rem 2rem', background: 'white', borderTop: '1px solid var(--border)', textAlign: 'center' }}>
         <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem' }}>
-          &copy; 2024 Odonto Cotações. Todos os direitos reservados.
+          &copy; 2024 On Donto. Todos os direitos reservados.
         </p>
       </footer>
 

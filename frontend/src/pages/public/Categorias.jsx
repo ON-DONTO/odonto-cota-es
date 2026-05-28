@@ -4,7 +4,7 @@ import api from '../../services/api';
 import Navbar from '../../components/Navbar';
 import CategoryModal from '../../components/CategoryModal';
 import { AuthContext } from '../../contexts/AuthContext';
-import { ArrowLeft, Box, Plus, Trash2, ShoppingBag } from 'lucide-react';
+import { ArrowLeft, Box, Plus, Trash2, Notebook } from 'lucide-react';
 
 export default function Categorias() {
   const { id } = useParams();
@@ -115,7 +115,7 @@ export default function Categorias() {
                     style={{ marginTop: 'auto', width: '100%', background: 'transparent', border: '1px solid var(--primary)', color: 'var(--primary)' }}
                     onClick={() => navigate(`/categoria/${cat.id}/produtos`)}
                   >
-                    <ShoppingBag size={18} /> Ver Produtos
+                    <Notebook size={18} /> Ver Produtos
                   </button>
                 </div>
               ))

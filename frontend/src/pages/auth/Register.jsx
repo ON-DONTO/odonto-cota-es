@@ -34,7 +34,7 @@ export default function Register() {
         <div className="login-header" style={{ textAlign: 'center', marginBottom: '2rem' }}>
           <Stethoscope size={48} color="var(--primary)" style={{ marginBottom: '1rem' }} />
           <h2 style={{ fontSize: '1.75rem', fontWeight: '800' }}>Crie sua Conta</h2>
-          <p style={{ color: 'var(--text-muted)' }}>Junte-se à maior rede odontológica do ES.</p>
+          <p style={{ color: 'var(--text-muted)' }}>Junte-se à maior rede odontológica On Donto.</p>
         </div>
 
         <form onSubmit={handleRegister} className="login-form">

@@ -33,7 +33,7 @@ export default function Login() {
       <div className="login-box">
         <div className="login-header">
           <Stethoscope size={48} color="var(--primary)" />
-          <h2>Odonto Cotações</h2>
+          <h2>On Donto</h2>
           <p>Acesse o sistema com suas credenciais.</p>
         </div>
 
