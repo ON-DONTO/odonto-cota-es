@@ -23,7 +23,7 @@ async function buscarProdutoPorId(id) {
   return produto;
 }
 
-async function criarProduto({ nome, descricao, categoria_id }) {
+async function criarProduto({ nome, descricao, categoria_id, imagem_url }) {
   if (!nome || nome.trim() === '') {
     throw createError('O campo "nome" é obrigatório.');
   }
@@ -38,7 +38,7 @@ async function criarProduto({ nome, descricao, categoria_id }) {
   if (existente) throw createError('Já existe um produto com este nome nessa categoria.');
 
   const id = uuidv4();
-  return produtosRepository.create({ id, nome: nome.trim(), descricao, categoria_id });
+  return produtosRepository.create({ id, nome: nome.trim(), descricao, categoria_id, imagem_url });
 }
 
 async function ativarDesativarProduto(id, ativo) {

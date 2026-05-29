@@ -7,6 +7,23 @@ import { AuthContext } from '../../contexts/AuthContext';
 import { CartContext } from '../../contexts/CartContext';
 import { ArrowLeft, Box, Plus, Trash2, Notebook, Info, CheckCircle } from 'lucide-react';
 
+const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+
+function makeSvgPlaceholder(nome) {
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="400" height="400" viewBox="0 0 400 400"><rect width="100%" height="100%" fill="#f1f5f9"/><text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" font-family="system-ui, sans-serif" font-size="14" font-weight="600" fill="#0f766e">${nome}</text></svg>`;
+  return `data:image/svg+xml;base64,${window.btoa(unescape(encodeURIComponent(svg)))}`;
+}
+
+function getProductImage(prod) {
+  if (!prod.imagem_url) return null;
+  // Caminho local (/uploads/...) → monta URL absoluta do backend
+  if (prod.imagem_url.startsWith('/uploads/')) {
+    return `${API_BASE}${prod.imagem_url}`;
+  }
+  // URL externa (http/https)
+  return prod.imagem_url;
+}
+
 export default function Produtos() {
   const { id } = useParams(); // ID da Categoria
   const navigate = useNavigate();
@@ -106,15 +123,61 @@ export default function Produtos() {
                   {user?.tipo === 'admin' && (
                     <button 
                       onClick={() => handleDeleteProduct(prod.id, prod.nome)}
-                      style={{ position: 'absolute', top: '1rem', right: '1rem', background: 'none', border: 'none', color: 'var(--danger)', cursor: 'pointer' }}
+                      style={{ position: 'absolute', top: '1rem', right: '1rem', background: 'none', border: 'none', color: 'var(--danger)', cursor: 'pointer', zIndex: 10 }}
                     >
                       <Trash2 size={18} />
                     </button>
                   )}
                   
-                  <div style={{ background: 'var(--accent-bg)', padding: '0.75rem', borderRadius: '0.75rem', color: 'var(--primary)' }}>
-                    <Notebook size={24} />
-                  </div>
+                  {getProductImage(prod) ? (
+                    <div style={{ 
+                      width: '100%', 
+                      height: '160px', 
+                      borderRadius: '0.75rem', 
+                      overflow: 'hidden', 
+                      marginBottom: '1rem', 
+                      background: '#f8fafc', 
+                      display: 'flex', 
+                      alignItems: 'center', 
+                      justifyContent: 'center',
+                      border: '1px solid var(--border)'
+                    }}>
+                      <img 
+                        src={getProductImage(prod)} 
+                        alt={prod.nome} 
+                        style={{ 
+                          width: '100%', 
+                          height: '100%', 
+                          objectFit: 'contain',
+                          padding: '0.5rem',
+                          transition: 'transform 0.3s ease'
+                        }} 
+                        onError={(e) => {
+                          e.target.onerror = null;
+                          e.target.src = makeSvgPlaceholder(prod.nome);
+                        }}
+                      />
+                    </div>
+                  ) : (
+                    <div style={{ 
+                      width: '100%',
+                      height: '160px',
+                      borderRadius: '0.75rem',
+                      marginBottom: '1rem',
+                      background: 'var(--accent-bg)',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      border: '1px solid var(--border)'
+                    }}>
+                      <img
+                        src={makeSvgPlaceholder(prod.nome)}
+                        alt={prod.nome}
+                        style={{ width: '100%', height: '100%', objectFit: 'contain', padding: '0.5rem' }}
+                      />
+                    </div>
+
+                  )}
                   <div style={{ width: '100%' }}>
                     <h3 className="card-title" style={{ margin: '0.5rem 0' }}>{prod.nome}</h3>
                     <p style={{ fontSize: '0.875rem', color: 'var(--text-muted)', marginBottom: '1rem' }}>

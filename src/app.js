@@ -2,6 +2,7 @@
 
 const express = require('express');
 const cors = require('cors');
+const path = require('path');
 
 // Routes
 const authRoutes = require('./modules/auth/auth.routes');
@@ -11,6 +12,7 @@ const produtosRoutes = require('./modules/catalogo/produtos/produtos.routes');
 const cotacoesRoutes = require('./modules/catalogo/cotacoes/cotacoes.routes');
 const respostasRoutes = require('./modules/catalogo/cotacoes/respostas.routes');
 const usersRoutes = require('./modules/users/users.routes');
+const uploadRoutes = require('./modules/upload/upload.routes');
 
 // Middlewares
 const { errorHandler } = require('./middlewares/errorHandler.middleware');
@@ -22,6 +24,9 @@ app.use(cors());
 // ── Parsing ─────────────────────────────────────────────
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+// ── Arquivos estáticos (imagens de produtos) ──────────────
+app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
 
 // ── Health check ─────────────────────────────────────────
 app.get('/health', (req, res) => {
@@ -36,6 +41,7 @@ app.use('/api/produtos', produtosRoutes);
 app.use('/api/cotacoes', cotacoesRoutes);
 app.use('/api/respostas', respostasRoutes);
 app.use('/api/users', usersRoutes);
+app.use('/api/upload', uploadRoutes);
 
 // ── 404 ──────────────────────────────────────────────────
 app.use((req, res) => {

@@ -22,7 +22,7 @@ async function findAll({ categoriaId, ativo } = {}) {
   const where = condicoes.length ? `WHERE ${condicoes.join(' AND ')}` : '';
 
   const [rows] = await pool.execute(
-    `SELECT p.id, p.nome, p.descricao, p.ativo,
+    `SELECT p.id, p.nome, p.descricao, p.ativo, p.imagem_url,
             p.categoria_id, c.nome AS categoria_nome,
             a.id AS area_id, a.nome AS area_nome
      FROM produtos p
@@ -37,7 +37,7 @@ async function findAll({ categoriaId, ativo } = {}) {
 
 async function findById(id) {
   const [rows] = await pool.execute(
-    `SELECT p.id, p.nome, p.descricao, p.ativo,
+    `SELECT p.id, p.nome, p.descricao, p.ativo, p.imagem_url,
             p.categoria_id, c.nome AS categoria_nome,
             a.id AS area_id, a.nome AS area_nome
      FROM produtos p
@@ -57,10 +57,10 @@ async function findByNomeAndCategoria(nome, categoriaId) {
   return rows[0] || null;
 }
 
-async function create({ id, nome, descricao, categoria_id }) {
+async function create({ id, nome, descricao, categoria_id, imagem_url }) {
   await pool.execute(
-    'INSERT INTO produtos (id, nome, descricao, categoria_id, ativo) VALUES (?, ?, ?, ?, 1)',
-    [id, nome, descricao ?? null, categoria_id]
+    'INSERT INTO produtos (id, nome, descricao, categoria_id, ativo, imagem_url) VALUES (?, ?, ?, ?, 1, ?)',
+    [id, nome, descricao ?? null, categoria_id, imagem_url ?? null]
   );
   return findById(id);
 }
