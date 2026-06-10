@@ -50,12 +50,33 @@ export function CartProvider({ children }) {
     ));
   }
 
+  function importListToCart(produtosLista) {
+    // produtosLista: Array de { id, nome, marca, quantidade }
+    setCart(prev => {
+      const newCart = [...prev];
+      for (const item of produtosLista) {
+        const existIndex = newCart.findIndex(cItem => cItem.id === item.id);
+        if (existIndex > -1) {
+          newCart[existIndex].quantidade += item.quantidade;
+        } else {
+          newCart.push({
+            id: item.id,
+            nome: item.nome,
+            marca: item.marca,
+            quantidade: item.quantidade
+          });
+        }
+      }
+      return newCart;
+    });
+  }
+
   function clearCart() {
     setCart([]);
   }
 
   return (
-    <CartContext.Provider value={{ cart, addToCart, removeFromCart, updateQuantity, clearCart }}>
+    <CartContext.Provider value={{ cart, addToCart, removeFromCart, updateQuantity, clearCart, importListToCart }}>
       {children}
     </CartContext.Provider>
   );

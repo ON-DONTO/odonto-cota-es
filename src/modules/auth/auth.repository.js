@@ -23,16 +23,16 @@ async function findById(id) {
  * Cria um novo usuário
  */
 async function create(userData) {
-  const { nome, email, senha, tipo = 'cliente' } = userData;
+  const { nome, email, senha, tipo = 'cliente', codigo_acesso = null } = userData;
   const id = uuidv4();
 
   const query = `
-    INSERT INTO users (id, nome, email, senha, tipo)
-    VALUES (?, ?, ?, ?, ?)
+    INSERT INTO users (id, nome, email, senha, tipo, codigo_acesso)
+    VALUES (?, ?, ?, ?, ?, ?)
   `;
-  await pool.query(query, [id, nome, email, senha, tipo]);
+  await pool.query(query, [id, nome, email, senha, tipo, codigo_acesso]);
 
-  return { id, nome, email, tipo };
+  return { id, nome, email, tipo, codigo_acesso };
 }
 
 module.exports = {

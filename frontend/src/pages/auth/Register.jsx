@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import api from '../../services/api';
-import { Stethoscope, User, Mail, Lock, UserCircle, Store } from 'lucide-react';
+import { Stethoscope, User, Mail, Lock, UserCircle, Store, GraduationCap, BookOpen } from 'lucide-react';
 
 export default function Register() {
   const [nome, setNome] = useState('');
@@ -117,6 +117,36 @@ export default function Register() {
               >
                 <Store size={24} style={{ marginBottom: '0.5rem', color: tipo === 'fornecedor' ? 'var(--primary)' : 'var(--text-muted)' }} />
                 <div style={{ fontWeight: '600', fontSize: '0.8rem' }}>Vender Produtos (Fornecedor)</div>
+              </div>
+              <div 
+                onClick={() => setTipo('professor')}
+                style={{ 
+                  padding: '1rem', 
+                  borderRadius: '0.75rem', 
+                  border: '2px solid ' + (tipo === 'professor' ? 'var(--primary)' : 'var(--border)'),
+                  background: tipo === 'professor' ? 'var(--accent-bg)' : 'white',
+                  cursor: 'pointer',
+                  textAlign: 'center',
+                  transition: '0.2s'
+                }}
+              >
+                <GraduationCap size={24} style={{ marginBottom: '0.5rem', color: tipo === 'professor' ? 'var(--primary)' : 'var(--text-muted)' }} />
+                <div style={{ fontWeight: '600', fontSize: '0.8rem' }}>Criar Listas (Professor)</div>
+              </div>
+              <div 
+                onClick={() => setTipo('aluno')}
+                style={{ 
+                  padding: '1rem', 
+                  borderRadius: '0.75rem', 
+                  border: '2px solid ' + (tipo === 'aluno' ? 'var(--primary)' : 'var(--border)'),
+                  background: tipo === 'aluno' ? 'var(--accent-bg)' : 'white',
+                  cursor: 'pointer',
+                  textAlign: 'center',
+                  transition: '0.2s'
+                }}
+              >
+                <BookOpen size={24} style={{ marginBottom: '0.5rem', color: tipo === 'aluno' ? 'var(--primary)' : 'var(--text-muted)' }} />
+                <div style={{ fontWeight: '600', fontSize: '0.8rem' }}>Acessar Listas (Aluno)</div>
               </div>
             </div>
           </div>

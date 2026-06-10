@@ -39,8 +39,14 @@ export function AuthProvider({ children }) {
     setUser(null);
   }
 
+  function updateUser(newData) {
+    const updatedUser = { ...user, ...newData };
+    localStorage.setItem('@OnDonto:user', JSON.stringify(updatedUser));
+    setUser(updatedUser);
+  }
+
   return (
-    <AuthContext.Provider value={{ signed: !!user, user, signIn, signOut, loading }}>
+    <AuthContext.Provider value={{ signed: !!user, user, signIn, signOut, loading, updateUser }}>
       {children}
     </AuthContext.Provider>
   );

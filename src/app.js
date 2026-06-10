@@ -13,6 +13,7 @@ const cotacoesRoutes = require('./modules/catalogo/cotacoes/cotacoes.routes');
 const respostasRoutes = require('./modules/catalogo/cotacoes/respostas.routes');
 const usersRoutes = require('./modules/users/users.routes');
 const uploadRoutes = require('./modules/upload/upload.routes');
+const listasRoutes = require('./modules/listas/listas.routes');
 
 // Middlewares
 const { errorHandler } = require('./middlewares/errorHandler.middleware');
@@ -42,6 +43,7 @@ app.use('/api/cotacoes', cotacoesRoutes);
 app.use('/api/respostas', respostasRoutes);
 app.use('/api/users', usersRoutes);
 app.use('/api/upload', uploadRoutes);
+app.use('/api/listas', listasRoutes);
 
 // ── 404 ──────────────────────────────────────────────────
 app.use((req, res) => {

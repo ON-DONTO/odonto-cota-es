@@ -16,7 +16,7 @@ export default function Navbar() {
 
   return (
     <nav className="navbar">
-      <Link to={user?.tipo === 'fornecedor' ? "/fornecedor" : "/"} className="nav-brand">
+      <Link to={user?.tipo === 'fornecedor' ? "/fornecedor" : (user?.tipo === 'professor' ? "/professor" : "/")} className="nav-brand">
         <Stethoscope size={28} />
         <span>On Donto</span>
       </Link>
@@ -24,7 +24,7 @@ export default function Navbar() {
       <div className="nav-links">
         {signed ? (
           <>
-            {user.tipo === 'cliente' && (
+            {(user.tipo === 'cliente' || user.tipo === 'aluno') && (
               <Link to="/minhas-cotacoes" className="nav-item" style={{ position: 'relative', display: 'flex', alignItems: 'center', gap: '0.5rem', textDecoration: 'none', color: 'var(--text)', fontWeight: '600', marginRight: '1rem' }}>
                 <Notebook size={20} />
                 <span>Minha Lista</span>
@@ -33,6 +33,20 @@ export default function Navbar() {
                     {cart.length}
                   </span>
                 )}
+              </Link>
+            )}
+
+            {user.tipo === 'aluno' && (
+              <Link to="/aluno/listas" className="nav-item" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', textDecoration: 'none', color: 'var(--text)', fontWeight: '600', marginRight: '1rem' }}>
+                <ClipboardList size={20} />
+                <span>Listas do Professor</span>
+              </Link>
+            )}
+
+            {user.tipo === 'professor' && (
+              <Link to="/professor" className="nav-item" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', textDecoration: 'none', color: 'var(--text)', fontWeight: '600', marginRight: '1rem' }}>
+                <ClipboardList size={20} />
+                <span>Minhas Listas</span>
               </Link>
             )}
 

@@ -5,6 +5,15 @@ const jwt = require('jsonwebtoken');
 const authRepository = require('./auth.repository');
 const { createError } = require('../../utils/createError');
 
+function generateProfessorCode() {
+  const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+  let code = '';
+  for (let i = 0; i < 6; i++) {
+    code += chars.charAt(Math.floor(Math.random() * chars.length));
+  }
+  return `PROF-${code}`;
+}
+
 /**
  * Serviço de Login
  */
@@ -34,7 +43,9 @@ async function login(email, password) {
       id: user.id,
       nome: user.nome,
       email: user.email,
-      tipo: user.tipo
+      tipo: user.tipo,
+      codigo_acesso: user.codigo_acesso,
+      professor_id: user.professor_id
     }
   };
 }
@@ -52,8 +63,13 @@ async function register(userData) {
   }
 
   // Validação básica de tipo (impede criação de admin via rota pública)
-  const allowedTypes = ['cliente', 'fornecedor'];
+  const allowedTypes = ['cliente', 'fornecedor', 'professor', 'aluno'];
   const finalTipo = allowedTypes.includes(tipo) ? tipo : 'cliente';
+
+  let codigoAcesso = null;
+  if (finalTipo === 'professor') {
+    codigoAcesso = generateProfessorCode();
+  }
 
   // Hash da senha
   const salt = await bcrypt.genSalt(10);
@@ -63,7 +79,8 @@ async function register(userData) {
     nome,
     email,
     senha: hashedPassword,
-    tipo: finalTipo
+    tipo: finalTipo,
+    codigo_acesso: codigoAcesso
   };
 
   const newUser = await authRepository.create(userToCreate);

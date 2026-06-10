@@ -13,6 +13,11 @@ import ResponderCotacao from './pages/fornecedor/ResponderCotacao';
 import VisualizarRespostas from './pages/dentista/VisualizarRespostas';
 import GerenciarUsuarios from './pages/admin/GerenciarUsuarios';
 
+// Novas Páginas Acadêmicas
+import ListasAcademicas from './pages/professor/ListasAcademicas';
+import CriarLista from './pages/professor/CriarLista';
+import ListasProfessor from './pages/aluno/ListasProfessor';
+
 // Componente para proteger rotas: se não estiver logado, joga pro Login
 function PrivateRoute({ children }) {
   const { signed, loading } = useContext(AuthContext);
@@ -29,9 +34,10 @@ function RoleRoute({ children, allowedRoles }) {
   if (loading) return <div>Carregando...</div>;
 
   if (!user || !allowedRoles.includes(user.tipo)) {
-    // Se for fornecedor tentando acessar rota de cliente, manda pro painel dele
+    // Redireciona dependendo do tipo do usuário logado
     if (user?.tipo === 'fornecedor') return <Navigate to="/fornecedor" />;
-    // Caso contrário (cliente em rota de fornecedor), manda pro catálogo
+    if (user?.tipo === 'professor') return <Navigate to="/professor" />;
+    if (user?.tipo === 'aluno') return <Navigate to="/aluno/listas" />;
     return <Navigate to="/" />;
   }
 
@@ -47,10 +53,10 @@ function AppRoutes() {
       <Route path="/login" element={signed ? <Navigate to="/" /> : <Login />} />
       <Route path="/register" element={signed ? <Navigate to="/" /> : <Register />} />
       
-      {/* Rotas Privadas (Catálogo) */}
+      {/* Rotas Privadas (Catálogo) - Acessíveis para Dentistas, Alunos e Admins */}
       <Route path="/" element={
         <PrivateRoute>
-          <RoleRoute allowedRoles={['cliente', 'admin']}>
+          <RoleRoute allowedRoles={['cliente', 'aluno', 'admin']}>
             <Catalogo />
           </RoleRoute>
         </PrivateRoute>
@@ -58,7 +64,7 @@ function AppRoutes() {
       
       <Route path="/area/:id/categorias" element={
         <PrivateRoute>
-          <RoleRoute allowedRoles={['cliente', 'admin']}>
+          <RoleRoute allowedRoles={['cliente', 'aluno', 'admin']}>
             <Categorias />
           </RoleRoute>
         </PrivateRoute>
@@ -66,16 +72,16 @@ function AppRoutes() {
 
       <Route path="/categoria/:id/produtos" element={
         <PrivateRoute>
-          <RoleRoute allowedRoles={['cliente', 'admin']}>
+          <RoleRoute allowedRoles={['cliente', 'aluno', 'admin']}>
             <Produtos />
           </RoleRoute>
         </PrivateRoute>
       } />
 
-      {/* Painel do Dentista */}
+      {/* Painel do Dentista e do Aluno (Carrinho e Histórico) */}
       <Route path="/minhas-cotacoes" element={
         <PrivateRoute>
-          <RoleRoute allowedRoles={['cliente', 'admin']}>
+          <RoleRoute allowedRoles={['cliente', 'aluno', 'admin']}>
             <MinhasCotacoes />
           </RoleRoute>
         </PrivateRoute>
@@ -83,8 +89,34 @@ function AppRoutes() {
 
       <Route path="/cotacao/:id/respostas" element={
         <PrivateRoute>
-          <RoleRoute allowedRoles={['cliente', 'admin']}>
+          <RoleRoute allowedRoles={['cliente', 'aluno', 'admin']}>
             <VisualizarRespostas />
+          </RoleRoute>
+        </PrivateRoute>
+      } />
+
+      {/* Painel do Professor */}
+      <Route path="/professor" element={
+        <PrivateRoute>
+          <RoleRoute allowedRoles={['professor', 'admin']}>
+            <ListasAcademicas />
+          </RoleRoute>
+        </PrivateRoute>
+      } />
+
+      <Route path="/professor/criar-lista" element={
+        <PrivateRoute>
+          <RoleRoute allowedRoles={['professor', 'admin']}>
+            <CriarLista />
+          </RoleRoute>
+        </PrivateRoute>
+      } />
+
+      {/* Painel do Aluno (Visualizar Listas) */}
+      <Route path="/aluno/listas" element={
+        <PrivateRoute>
+          <RoleRoute allowedRoles={['aluno', 'admin']}>
+            <ListasProfessor />
           </RoleRoute>
         </PrivateRoute>
       } />
