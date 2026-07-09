@@ -1,7 +1,9 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: 'http://127.0.0.1:3000/api', // Usando IP direto para maior estabilidade
+  baseURL: import.meta.env.VITE_API_URL 
+    ? `${import.meta.env.VITE_API_URL}/api` 
+    : 'http://127.0.0.1:3000/api',
 });
 
 // Interceptor para injetar o token JWT em todas as requisições
