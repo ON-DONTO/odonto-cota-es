@@ -10,6 +10,15 @@ router.use(authenticate);
 // Vinculação de Aluno a Professor pelo código
 router.post('/vincular', authorize(['aluno', 'admin']), listasController.vincular);
 
+// Desvincular de professor (apenas Aluno)
+router.post('/desvincular', authorize(['aluno', 'admin']), listasController.desvincular);
+
+// Obter alunos vinculados (apenas Professor)
+router.get('/alunos', authorize(['professor', 'admin']), listasController.listarAlunos);
+
+// Desvincular aluno específico (apenas Professor)
+router.post('/desvincular-aluno', authorize(['professor', 'admin']), listasController.desvincularAluno);
+
 // Criar lista acadêmica (apenas Professor)
 router.post('/', authorize(['professor', 'admin']), listasController.criar);
 

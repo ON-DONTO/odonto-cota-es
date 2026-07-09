@@ -35,7 +35,7 @@ async function login(email, password) {
     tipo: user.tipo
   };
 
-  const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '1d' });
+  const token = jwt.sign(payload, process.env.JWT_SECRET || 'odonto_cota_secret_2024', { expiresIn: '1d' });
 
   return {
     token,

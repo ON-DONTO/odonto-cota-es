@@ -54,10 +54,41 @@ async function excluir(req, res, next) {
   }
 }
 
+async function desvincular(req, res, next) {
+  try {
+    const result = await listasService.desvincularProfessor(req.user.id);
+    res.json(result);
+  } catch (err) {
+    next(err);
+  }
+}
+
+async function listarAlunos(req, res, next) {
+  try {
+    const result = await listasService.listarAlunos(req.user.id);
+    res.json(result);
+  } catch (err) {
+    next(err);
+  }
+}
+
+async function desvincularAluno(req, res, next) {
+  try {
+    const { studentId } = req.body;
+    const result = await listasService.desvincularAluno(studentId, req.user.id);
+    res.json(result);
+  } catch (err) {
+    next(err);
+  }
+}
+
 module.exports = {
   vincular,
   criar,
   listar,
   visualizar,
-  excluir
+  excluir,
+  desvincular,
+  listarAlunos,
+  desvincularAluno
 };

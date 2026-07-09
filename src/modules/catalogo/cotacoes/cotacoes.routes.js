@@ -9,10 +9,10 @@ const { authenticate, authorize } = require('../../../middlewares/auth.middlewar
 router.use(authenticate);
 
 // Rota para o dentista criar cotação
-router.post('/', authorize(['admin', 'cliente']), cotacoesController.create);
+router.post('/', authorize(['admin', 'cliente', 'aluno']), cotacoesController.create);
 
 // Rota para o dentista ver suas próprias cotações
-router.get('/minhas', authorize(['admin', 'cliente']), cotacoesController.listMinhas);
+router.get('/minhas', authorize(['admin', 'cliente', 'aluno']), cotacoesController.listMinhas);
 
 // Rota para o fornecedor ver cotações abertas
 router.get('/abertas', authorize(['admin', 'fornecedor']), cotacoesController.listAbertas);

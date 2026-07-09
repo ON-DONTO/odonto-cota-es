@@ -143,6 +143,39 @@ async function deleteList(id, professorId) {
   return result.affectedRows > 0;
 }
 
+/**
+ * Desvincula um aluno de qualquer professor
+ */
+async function unlinkStudent(studentId) {
+  const [result] = await pool.query(
+    'UPDATE users SET professor_id = NULL WHERE id = ? AND tipo = "aluno"',
+    [studentId]
+  );
+  return result.affectedRows > 0;
+}
+
+/**
+ * Busca todos os alunos vinculados a um professor
+ */
+async function findStudentsByProfessorId(professorId) {
+  const [rows] = await pool.query(
+    'SELECT id, nome, email FROM users WHERE professor_id = ? AND tipo = "aluno" ORDER BY nome ASC',
+    [professorId]
+  );
+  return rows;
+}
+
+/**
+ * Desvincula um aluno de um professor específico (segurança adicional)
+ */
+async function unlinkStudentByProfessor(studentId, professorId) {
+  const [result] = await pool.query(
+    'UPDATE users SET professor_id = NULL WHERE id = ? AND professor_id = ? AND tipo = "aluno"',
+    [studentId, professorId]
+  );
+  return result.affectedRows > 0;
+}
+
 module.exports = {
   findTeacherByCode,
   linkStudentToTeacher,
@@ -151,5 +184,8 @@ module.exports = {
   findByProfessorId,
   findByStudentId,
   findById,
-  deleteList
+  deleteList,
+  unlinkStudent,
+  findStudentsByProfessorId,
+  unlinkStudentByProfessor
 };

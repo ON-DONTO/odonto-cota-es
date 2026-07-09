@@ -83,10 +83,43 @@ async function removerLista(id, professorId) {
   return { success: true };
 }
 
+/**
+ * Desvincula um aluno de seu professor
+ */
+async function desvincularProfessor(studentId) {
+  await listasRepository.unlinkStudent(studentId);
+  // Não verificamos affectedRows pois MySQL retorna 0 se professor_id já era NULL
+  return { success: true };
+}
+
+/**
+ * Retorna todos os alunos vinculados ao professor
+ */
+async function listarAlunos(professorId) {
+  return await listasRepository.findStudentsByProfessorId(professorId);
+}
+
+/**
+ * Desvincula um aluno específico pelo professor
+ */
+async function desvincularAluno(studentId, professorId) {
+  if (!studentId) {
+    throw createError('O ID do aluno é obrigatório.', 400);
+  }
+  const result = await listasRepository.unlinkStudentByProfessor(studentId, professorId);
+  if (!result) {
+    throw createError('Aluno não encontrado ou não está vinculado a este professor.', 404);
+  }
+  return { success: true };
+}
+
 module.exports = {
   vincularProfessor,
   criarLista,
   listarPorUsuario,
   obterDetalhes,
-  removerLista
+  removerLista,
+  desvincularProfessor,
+  listarAlunos,
+  desvincularAluno
 };
