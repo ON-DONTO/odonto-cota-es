@@ -23,7 +23,7 @@ async function testConnection() {
     console.log('✅ Conexão com o banco de dados estabelecida.');
     conn.release();
   } catch (err) {
-    console.error('❌ Erro ao conectar com o banco de dados:', err.message);
+    console.error('❌ Erro ao conectar com o banco de dados:', err);
     process.exit(1);
   }
 }

@@ -5,7 +5,7 @@
  * Deve ser registrado como último middleware no app.
  */
 function errorHandler(err, req, res, next) {
-  console.error(`[ERROR] ${req.method} ${req.url} →`, err.message);
+  console.error(`[ERROR] ${req.method} ${req.url} →`, err);
 
   const status = err.status || err.statusCode || 500;
   const message = status < 500 ? err.message : 'Erro interno do servidor.';
