@@ -7,10 +7,14 @@ const fs = require('fs');
 const multer = require('multer');
 const { authenticate, authorize } = require('../../middlewares/auth.middleware');
 
-// Garante que a pasta uploads existe
+// Garante que a pasta uploads existe (seguro para ambientes read-only como Vercel)
 const uploadsDir = path.join(__dirname, '../../../uploads');
-if (!fs.existsSync(uploadsDir)) {
-  fs.mkdirSync(uploadsDir, { recursive: true });
+try {
+  if (!fs.existsSync(uploadsDir)) {
+    fs.mkdirSync(uploadsDir, { recursive: true });
+  }
+} catch (err) {
+  console.warn('⚠️ Não foi possível criar/verificar a pasta de uploads (comum em Vercel):', err.message);
 }
 
 // ── Configuração do Multer ────────────────────────────────
