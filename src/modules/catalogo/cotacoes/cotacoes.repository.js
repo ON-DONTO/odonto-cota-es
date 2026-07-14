@@ -58,11 +58,20 @@ async function findByDentistaId(dentistaId) {
   return rows;
 }
 
+async function fecharCotacao(id) {
+  const [result] = await pool.execute(
+    'UPDATE cotacoes SET status = ? WHERE id = ?',
+    ['fechada', id]
+  );
+  return result.affectedRows > 0;
+}
+
 module.exports = {
   createCotacao,
   addItens,
   findAllAbertas,
   findById,
   findItensByCotacaoId,
-  findByDentistaId
+  findByDentistaId,
+  fecharCotacao
 };

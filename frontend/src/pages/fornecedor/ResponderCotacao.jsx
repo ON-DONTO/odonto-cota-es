@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import Navbar from '../../components/Navbar';
 import api from '../../services/api';
-import { Check, X, Send, ArrowLeft, Info, PackageCheck } from 'lucide-react';
+import { Check, X, Send, ArrowLeft, Lock } from 'lucide-react';
 
 export default function ResponderCotacao() {
   const { id } = useParams();
@@ -11,12 +11,18 @@ export default function ResponderCotacao() {
   const [itens, setItens] = useState([]);
   const [observacoes, setObservacoes] = useState('');
   const [loading, setLoading] = useState(true);
+  const [cotacaoFechada, setCotacaoFechada] = useState(false);
 
   async function loadData() {
     try {
       const res = await api.get(`/cotacoes/${id}`);
       setCotacao(res.data);
-      // Prepara os itens para a resposta
+
+      if (res.data.status === 'fechada') {
+        setCotacaoFechada(true);
+        return;
+      }
+
       const itensIniciais = res.data.itens.map(item => ({
         produto_id: item.produto_id,
         produto_nome: item.produto_nome,
@@ -74,6 +80,53 @@ export default function ResponderCotacao() {
   }, 0);
 
   if (loading) return <p>Carregando...</p>;
+
+  if (cotacaoFechada) {
+    return (
+      <>
+        <Navbar />
+        <main className="page-container">
+          <div style={{
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            minHeight: '60vh'
+          }}>
+            <div className="card" style={{
+              textAlign: 'center', padding: '3rem',
+              maxWidth: '480px', width: '100%'
+            }}>
+              <div style={{
+                width: '80px', height: '80px',
+                background: '#fff5f5',
+                borderRadius: '50%',
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                margin: '0 auto 1.5rem',
+                color: 'var(--danger, #e53935)'
+              }}>
+                <Lock size={36} />
+              </div>
+              <h2 style={{ margin: '0 0 0.75rem', color: 'var(--text-h)' }}>
+                Cotação Encerrada
+              </h2>
+              <p style={{ color: 'var(--text-muted)', lineHeight: '1.6', marginBottom: '0.5rem' }}>
+                Esta cotação foi encerrada pelo dentista.
+              </p>
+              <p style={{ color: 'var(--text-muted)', lineHeight: '1.6', marginBottom: '2rem' }}>
+                Ela não está mais disponível para novas respostas.
+              </p>
+              <button
+                onClick={() => navigate('/fornecedor')}
+                className="btn-primary"
+                style={{ width: '100%' }}
+              >
+                <ArrowLeft size={18} style={{ marginRight: '0.5rem' }} />
+                Voltar ao Painel
+              </button>
+            </div>
+          </div>
+        </main>
+      </>
+    );
+  }
 
   return (
     <>

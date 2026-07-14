@@ -52,9 +52,20 @@ async function listMinhas(req, res, next) {
   }
 }
 
+async function fechar(req, res, next) {
+  try {
+    const { id } = req.params;
+    const result = await cotacoesService.fechar(id);
+    res.json(result);
+  } catch (error) {
+    next(error);
+  }
+}
+
 module.exports = {
   create,
   listAbertas,
   getDetails,
-  listMinhas
+  listMinhas,
+  fechar
 };

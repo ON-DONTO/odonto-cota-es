@@ -17,7 +17,11 @@ router.get('/minhas', authorize(['admin', 'cliente', 'aluno']), cotacoesControll
 // Rota para o fornecedor ver cotações abertas
 router.get('/abertas', authorize(['admin', 'fornecedor']), cotacoesController.listAbertas);
 
+// Rota para fechar uma cotação (dentista aceita uma proposta)
+router.patch('/:id/fechar', authorize(['admin', 'cliente', 'aluno']), cotacoesController.fechar);
+
 // Rota para ver detalhes de uma cotação (ambos podem ver)
 router.get('/:id', cotacoesController.getDetails);
+
 
 module.exports = router;
