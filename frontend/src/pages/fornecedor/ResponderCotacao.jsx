@@ -18,7 +18,7 @@ export default function ResponderCotacao() {
       const res = await api.get(`/cotacoes/${id}`);
       setCotacao(res.data);
 
-      if (res.data.status === 'fechada') {
+      if (res.data.status === 'finalizada') {
         setCotacaoFechada(true);
         return;
       }

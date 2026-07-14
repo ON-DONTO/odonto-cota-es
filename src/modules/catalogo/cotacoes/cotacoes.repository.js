@@ -61,7 +61,7 @@ async function findByDentistaId(dentistaId) {
 async function fecharCotacao(id) {
   const [result] = await pool.execute(
     'UPDATE cotacoes SET status = ? WHERE id = ?',
-    ['fechada', id]
+    ['finalizada', id]
   );
   return result.affectedRows > 0;
 }

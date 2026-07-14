@@ -43,10 +43,10 @@ async function listByDentista(dentistaId) {
 async function fechar(id) {
   const cotacao = await cotacoesRepository.findById(id);
   if (!cotacao) throw new Error('Cotação não encontrada.');
-  if (cotacao.status === 'fechada') throw new Error('Cotação já está fechada.');
+  if (cotacao.status === 'finalizada') throw new Error('Cotação já está finalizada.');
   const ok = await cotacoesRepository.fecharCotacao(id);
   if (!ok) throw new Error('Não foi possível fechar a cotação.');
-  return { message: 'Cotação fechada com sucesso.' };
+  return { message: 'Cotação finalizada com sucesso.' };
 }
 
 module.exports = {
