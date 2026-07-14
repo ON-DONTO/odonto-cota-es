@@ -11,6 +11,6 @@ router.use(authenticate);
 router.post('/', authorize(['admin', 'fornecedor']), respostasController.responder);
 
 // Dentista ou Admin lista respostas de uma cotação
-router.get('/cotacao/:cotacaoId', authorize(['admin', 'cliente']), respostasController.listByCotacao);
+router.get('/cotacao/:cotacaoId', authorize(['admin', 'cliente', 'aluno']), respostasController.listByCotacao);
 
 module.exports = router;
