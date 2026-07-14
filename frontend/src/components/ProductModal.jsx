@@ -1,11 +1,14 @@
 import React, { useState, useRef } from 'react';
 import { X, PlusCircle, ShoppingBag, Upload, Image } from 'lucide-react';
 import api from '../services/api';
+import { useAlert } from '../contexts/AlertContext';
 
 const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:3000';
 
 export default function ProductModal({ isOpen, onClose, onSave, categoriaNome }) {
+  const { showAlert } = useAlert();
   const [nome, setNome] = useState('');
+
   const [descricao, setDescricao] = useState('');
   const [preview, setPreview] = useState(null);     // URL local para preview
   const [imageUrl, setImageUrl] = useState('');      // URL final após upload
@@ -42,7 +45,7 @@ export default function ProductModal({ isOpen, onClose, onSave, categoriaNome })
       });
       setImageUrl(res.data.url); // ex: /uploads/produto-12345.jpg
     } catch (err) {
-      alert('Erro ao fazer upload da imagem. Tente novamente.');
+      showAlert('Erro ao fazer upload da imagem. Tente novamente.', 'error');
       setPreview(null);
     } finally {
       setUploading(false);
@@ -53,7 +56,7 @@ export default function ProductModal({ isOpen, onClose, onSave, categoriaNome })
     e.preventDefault();
     if (!nome.trim()) return;
     if (uploading) {
-      alert('Aguarde o upload da imagem terminar.');
+      showAlert('Aguarde o upload da imagem terminar.', 'warning');
       return;
     }
 

@@ -2,7 +2,9 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { useContext } from 'react';
 import { AuthProvider, AuthContext } from './contexts/AuthContext';
 import { CartProvider } from './contexts/CartContext';
+import { AlertProvider } from './contexts/AlertContext';
 import Catalogo from './pages/public/Catalogo';
+
 import Categorias from './pages/public/Categorias';
 import Produtos from './pages/public/Produtos';
 import Login from './pages/auth/Login';
@@ -155,13 +157,15 @@ function AppRoutes() {
 function App() {
   return (
     <AuthProvider>
-      <CartProvider>
-        <BrowserRouter>
-          <div className="app-container">
-            <AppRoutes />
-          </div>
-        </BrowserRouter>
-      </CartProvider>
+      <AlertProvider>
+        <CartProvider>
+          <BrowserRouter>
+            <div className="app-container">
+              <AppRoutes />
+            </div>
+          </BrowserRouter>
+        </CartProvider>
+      </AlertProvider>
     </AuthProvider>
   );
 }

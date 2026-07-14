@@ -6,6 +6,7 @@ import ProductModal from '../../components/ProductModal';
 import { AuthContext } from '../../contexts/AuthContext';
 import { CartContext } from '../../contexts/CartContext';
 import { ArrowLeft, Box, Plus, Trash2, Notebook, Info, CheckCircle } from 'lucide-react';
+import { useAlert } from '../../contexts/AlertContext';
 
 const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:3000';
 
@@ -25,7 +26,9 @@ function getProductImage(prod) {
 }
 
 export default function Produtos() {
+  const { showAlert } = useAlert();
   const { id } = useParams(); // ID da Categoria
+
   const navigate = useNavigate();
   const { user } = useContext(AuthContext);
   
@@ -60,22 +63,28 @@ export default function Produtos() {
       await api.post('/produtos', { ...data, categoria_id: id });
       loadData();
     } catch (error) {
-      alert('Erro ao adicionar produto. Verifique os dados.');
+      showAlert('Erro ao adicionar produto. Verifique os dados.', 'error');
       throw error;
     }
   }
 
   async function handleDeleteProduct(prodId, nome) {
-    if (!window.confirm(`Deseja excluir o produto "${nome}"?`)) {
-      return;
-    }
-
-    try {
-      await api.delete(`/produtos/${prodId}`);
-      loadData();
-    } catch (error) {
-      alert('Erro ao excluir produto.');
-    }
+    showAlert({
+      message: `Deseja realmente excluir o produto "${nome}"?`,
+      type: 'question',
+      title: 'Confirmar Exclusão',
+      isConfirm: true,
+      confirmText: 'Excluir',
+      cancelText: 'Cancelar',
+      onConfirm: async () => {
+        try {
+          await api.delete(`/produtos/${prodId}`);
+          loadData();
+        } catch (error) {
+          showAlert('Erro ao excluir produto.', 'error');
+        }
+      }
+    });
   }
 
   return (

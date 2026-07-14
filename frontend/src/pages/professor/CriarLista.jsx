@@ -2,10 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Navbar from '../../components/Navbar';
 import api from '../../services/api';
+import { useAlert } from '../../contexts/AlertContext';
 import { ArrowLeft, Plus, Trash2, Search, BookOpen, AlertCircle, Sparkles } from 'lucide-react';
 
 export default function CriarLista() {
+  const { showAlert } = useAlert();
   const [nome, setNome] = useState('');
+
   const [descricao, setDescricao] = useState('');
   const [semestre, setSemestre] = useState('');
   const [produtosCatalogo, setProdutosCatalogo] = useState([]);
@@ -95,8 +98,9 @@ export default function CriarLista() {
       };
 
       await api.post('/listas', payload);
-      alert('Lista acadêmica criada com sucesso!');
-      navigate('/professor');
+      showAlert('Lista acadêmica criada com sucesso!', 'success', 'Sucesso!', () => {
+        navigate('/professor');
+      });
     } catch (err) {
       console.error('Erro ao salvar lista acadêmica:', err);
       setError(err.response?.data?.error || 'Erro ao salvar a lista. Tente novamente.');

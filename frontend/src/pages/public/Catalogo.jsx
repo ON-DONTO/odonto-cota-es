@@ -4,10 +4,13 @@ import api from '../../services/api';
 import Navbar from '../../components/Navbar';
 import AreaModal from '../../components/AreaModal';
 import { AuthContext } from '../../contexts/AuthContext';
+import { useAlert } from '../../contexts/AlertContext';
 import { Layers, ArrowRight, Notebook, ShieldCheck, Zap, Plus, Trash2 } from 'lucide-react';
 
 export default function Catalogo() {
+  const { showAlert } = useAlert();
   const [areas, setAreas] = useState([]);
+
   const [loading, setLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
   
@@ -41,21 +44,27 @@ export default function Catalogo() {
       await api.post('/areas', data);
       loadAreas();
     } catch (error) {
-      alert('Erro ao criar área. Verifique se o nome já existe.');
+      showAlert('Erro ao criar área. Verifique se o nome já existe.', 'error');
     }
   }
 
   async function handleDeleteArea(id, nome) {
-    if (!window.confirm(`Tem certeza que deseja excluir a área "${nome}"? Isso falhará se houver categorias dentro dela.`)) {
-      return;
-    }
-
-    try {
-      await api.delete(`/areas/${id}`);
-      loadAreas();
-    } catch (error) {
-      alert('Erro ao excluir área. Certifique-se de que ela está vazia (sem categorias).');
-    }
+    showAlert({
+      message: `Tem certeza que deseja excluir a área "${nome}"? Isso falhará se houver categorias dentro dela.`,
+      type: 'question',
+      title: 'Confirmar Exclusão',
+      isConfirm: true,
+      confirmText: 'Excluir',
+      cancelText: 'Cancelar',
+      onConfirm: async () => {
+        try {
+          await api.delete(`/areas/${id}`);
+          loadAreas();
+        } catch (error) {
+          showAlert('Erro ao excluir área. Certifique-se de que ela está vazia (sem categorias).', 'error');
+        }
+      }
+    });
   }
 
   return (

@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import api from '../../services/api';
+import { useAlert } from '../../contexts/AlertContext';
 import { Stethoscope, User, Mail, Lock, UserCircle, Store, GraduationCap, BookOpen } from 'lucide-react';
 
 export default function Register() {
+  const { showAlert } = useAlert();
   const [nome, setNome] = useState('');
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
@@ -19,14 +21,19 @@ export default function Register() {
     
     try {
       await api.post('/auth/register', { nome, email, senha, tipo });
-      alert('Conta criada com sucesso! Faça login para continuar.');
-      navigate('/login');
+      showAlert(
+        'Conta criada com sucesso! Faça login para continuar.',
+        'success',
+        'Cadastro Concluído',
+        () => navigate('/login')
+      );
     } catch (err) {
       setError(err.response?.data?.error || 'Erro ao realizar cadastro. Tente novamente.');
     } finally {
       setLoading(false);
     }
   }
+
 
   return (
     <div className="login-container" style={{ background: 'var(--bg)' }}>

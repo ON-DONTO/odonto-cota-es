@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import Navbar from '../../components/Navbar';
 import api from '../../services/api';
+import { useAlert } from '../../contexts/AlertContext';
 import { User, Trash2, Shield, UserCheck, Search } from 'lucide-react';
 
 export default function GerenciarUsuarios() {
+  const { showAlert } = useAlert();
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
@@ -24,18 +26,25 @@ export default function GerenciarUsuarios() {
   }, []);
 
   async function handleDelete(id, nome) {
-    if (!window.confirm(`Deseja realmente remover o usuário "${nome}"?`)) {
-      return;
-    }
-
-    try {
-      await api.delete(`/users/${id}`);
-      setUsers(users.filter(u => u.id !== id));
-      alert('Usuário removido com sucesso.');
-    } catch (error) {
-      alert('Erro ao remover usuário.');
-    }
+    showAlert({
+      message: `Deseja realmente remover o usuário "${nome}"?`,
+      type: 'question',
+      title: 'Confirmar Remoção',
+      isConfirm: true,
+      confirmText: 'Remover',
+      cancelText: 'Cancelar',
+      onConfirm: async () => {
+        try {
+          await api.delete(`/users/${id}`);
+          setUsers(users.filter(u => u.id !== id));
+          showAlert('Usuário removido com sucesso.', 'success');
+        } catch (error) {
+          showAlert('Erro ao remover usuário.', 'error');
+        }
+      }
+    });
   }
+
 
   const filteredUsers = users.filter(u => 
     u.nome.toLowerCase().includes(searchTerm.toLowerCase()) || 

@@ -1,13 +1,16 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { CartContext } from '../../contexts/CartContext';
 import { AuthContext } from '../../contexts/AuthContext';
+import { useAlert } from '../../contexts/AlertContext';
 import Navbar from '../../components/Navbar';
 import api from '../../services/api';
 import { Trash2, Send, ShoppingBag, Clock, CheckCircle2, AlertCircle } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
 export default function MinhasCotacoes() {
+  const { showAlert } = useAlert();
   const { cart, removeFromCart, updateQuantity, clearCart } = useContext(CartContext);
+
   const { user } = useContext(AuthContext);
   const [minhasCotacoes, setMinhasCotacoes] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -43,7 +46,7 @@ export default function MinhasCotacoes() {
         itens
       });
 
-      alert('Cotação enviada com sucesso para todos os fornecedores!');
+      showAlert('Cotação enviada com sucesso para todos os fornecedores!', 'success');
       clearCart();
       setObservacoes('');
       loadCotacoes();
@@ -52,7 +55,7 @@ export default function MinhasCotacoes() {
         ? 'Apenas Dentistas podem enviar cotações. Sua conta atual é de Fornecedor.' 
         : (error.response?.data?.message || 'Erro ao processar cotação.');
       
-      alert(msg);
+      showAlert(msg, 'error');
     }
   }
 

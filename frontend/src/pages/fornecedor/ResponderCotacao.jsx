@@ -2,9 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import Navbar from '../../components/Navbar';
 import api from '../../services/api';
+import { useAlert } from '../../contexts/AlertContext';
 import { Check, X, Send, ArrowLeft, Lock } from 'lucide-react';
 
 export default function ResponderCotacao() {
+  const { showAlert } = useAlert();
   const { id } = useParams();
   const navigate = useNavigate();
   const [cotacao, setCotacao] = useState(null);
@@ -12,6 +14,7 @@ export default function ResponderCotacao() {
   const [observacoes, setObservacoes] = useState('');
   const [loading, setLoading] = useState(true);
   const [cotacaoFechada, setCotacaoFechada] = useState(false);
+
 
   async function loadData() {
     try {
@@ -55,7 +58,7 @@ export default function ResponderCotacao() {
       // Validação: se tem o produto, precisa do preço
       const invalid = itens.find(i => i.tem_produto && (!i.preco_unitario || i.preco_unitario <= 0));
       if (invalid) {
-        alert(`Por favor, informe o preço para o item: ${invalid.produto_nome}`);
+        showAlert(`Por favor, informe o preço para o item: ${invalid.produto_nome}`, 'warning');
         return;
       }
 
@@ -65,10 +68,11 @@ export default function ResponderCotacao() {
         itens
       });
 
-      alert('Resposta enviada com sucesso!');
-      navigate('/fornecedor');
+      showAlert('Resposta enviada com sucesso!', 'success', 'Sucesso!', () => {
+        navigate('/fornecedor');
+      });
     } catch (error) {
-      alert('Erro ao enviar resposta.');
+      showAlert('Erro ao enviar resposta.', 'error');
     }
   }
 

@@ -4,10 +4,13 @@ import api from '../../services/api';
 import Navbar from '../../components/Navbar';
 import CategoryModal from '../../components/CategoryModal';
 import { AuthContext } from '../../contexts/AuthContext';
+import { useAlert } from '../../contexts/AlertContext';
 import { ArrowLeft, Box, Plus, Trash2, Notebook } from 'lucide-react';
 
 export default function Categorias() {
+  const { showAlert } = useAlert();
   const { id } = useParams();
+
   const navigate = useNavigate();
   const { user } = useContext(AuthContext);
   
@@ -41,22 +44,28 @@ export default function Categorias() {
       await api.post('/categorias', { nome, area_id: id });
       loadData();
     } catch (error) {
-      alert('Erro ao criar categoria. Verifique se o nome já existe.');
+      showAlert('Erro ao criar categoria. Verifique se o nome já existe.', 'error');
       throw error;
     }
   }
 
   async function handleDeleteCategory(catId, nome) {
-    if (!window.confirm(`Deseja excluir a categoria "${nome}"? Isso falhará se houver produtos dentro dela.`)) {
-      return;
-    }
-
-    try {
-      await api.delete(`/categorias/${catId}`);
-      loadData();
-    } catch (error) {
-      alert('Erro ao excluir categoria. Certifique-se de que ela não possui produtos vinculados.');
-    }
+    showAlert({
+      message: `Deseja realmente excluir a categoria "${nome}"? Isso falhará se houver produtos dentro dela.`,
+      type: 'question',
+      title: 'Confirmar Exclusão',
+      isConfirm: true,
+      confirmText: 'Excluir',
+      cancelText: 'Cancelar',
+      onConfirm: async () => {
+        try {
+          await api.delete(`/categorias/${catId}`);
+          loadData();
+        } catch (error) {
+          showAlert('Erro ao excluir categoria. Certifique-se de que ela não possui produtos vinculados.', 'error');
+        }
+      }
+    });
   }
 
   return (
